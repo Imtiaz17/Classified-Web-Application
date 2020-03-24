@@ -304,10 +304,10 @@ class CreateController extends FrontController
     public function finish($tmpToken)
     {
         // Keep Success Message for the page refreshing
-        session()->keep(['message']);
-        if (!session()->has('message')) {
-            return redirect(config('app.locale') . '/');
-        }
+        // session()->keep(['message']);
+        // if (!session()->has('message')) {
+        //     return redirect(config('app.locale') . '/');
+        // }
         
         // Clear the steps wizard
         if (session()->has('tmpPostId')) {
@@ -329,7 +329,6 @@ class CreateController extends FrontController
         if (Auth::check() || (config('settings.email_verification') != 1 && config('settings.phone_verification') != 1)) {
             if (!empty($post)) {
                 flash(session('message'))->success();
-                
                 return redirect(config('app.locale') . '/' . slugify($post->title) . '/' . $post->id . '.html');
             }
         }

@@ -193,6 +193,18 @@ class PackageController extends FrontController
         if (empty($post)) {
             abort(404);
         }
+        $rules = [
+            'package' => 'required',
+            'bkash_no'=>'required',
+            'ref_no'=>'required',
+        ];
+         $customMessages = [
+        'package.required' => 'Please select a package.',
+        'bkash_no.required' => 'Please enter your bkash number.',
+        'ref_no.required' => 'Please enter bkash transection id.'
+        ];
+        $this->validate($request, $rules, $customMessages);
+
         $package= $request->package;
         $duration=array_filter($request->totalday);
         $durations=[];

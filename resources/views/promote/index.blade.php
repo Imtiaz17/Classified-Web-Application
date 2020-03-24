@@ -20,7 +20,7 @@
             padding:18px;
             border-radius: 4px 4px 0px 0px;
         }
-        .topad, .bumpad, .spotlight {
+        .Topad, .Bumpad, .Spotlight {
         vertical-align: middle;
         margin: 0px !important;
         padding: 10px 0px;
@@ -201,7 +201,7 @@
                     </div>
 
                     <div class="price-section is-hidden">
-                        <div class="row spotlight is-hidden">
+                        <div class="row Spotlight is-hidden">
                             <div class="col-xs-10">
                                 <img src="">
                                 <span class="pname"></span><span class="days"></span>
@@ -209,7 +209,7 @@
                             <div class="col-xs-2"><span class="price"></span></div>
 
                         </div>
-                        <div class="row topad is-hidden">
+                        <div class="row Topad is-hidden">
                             <div class="col-xs-10">
                                 <img src="">
                                 <span class="pname"></span><span class="days"></span>
@@ -217,7 +217,7 @@
                             <div class="col-xs-2"><span class="price"></span></div>
 
                         </div>
-                        <div class="row bumpad is-hidden">
+                        <div class="row Bumpad is-hidden">
                             <div class="col-xs-10">
                                 <img src="">
                                 <span class="pname"></span><span class="days"></span>
@@ -257,7 +257,7 @@
                             <label for="{{$package->id}}" class="row" >
                                 <div class="col-xs-2">
                                     <div class="box">
-                                        <input type="checkbox" onchange="promoteAd('{{$package->name}}','{{$package->id}}')" id="{{$package->id}}" class="check{{$package->name}}"
+                                        <input type="checkbox" onchange="promoteAd('{{$package->name}}','{{$package->id}}','{{$package->picture}}')" id="{{$package->id}}" class="check{{$package->name}}"
                                                name="package[]" value="{{$package->id}}">
                                         <img src="{{asset('uploads/'.$package->picture)}}">
                                     </div>
@@ -275,7 +275,7 @@
                                             <input type="hidden" class="{{$package->name}}"
                                                    name="totalday[{{$package->id}}]" value=''>
                                             <input type="radio" name="price[{{$package->id}}]"
-                                                   value="{{$duration->price}}"
+                                                   value="{{$duration->price}}" data-duration="{{$duration->duration}}" data-price="{{$duration->price}}"
                                                    onchange="selectDay('{{$package->name}}','{{$package->picture}}','{{$duration->duration}}','{{$duration->price}}')">
                                             <span> {{$duration->duration}}</span>
 
@@ -311,13 +311,31 @@
        
 
 
-        function promoteAd(list,id) {
-            $('#'+ list).toggle();
-             // $('input[type="radio"][name="price'+id+'"]').prop("checked", true);
+        function promoteAd(name,id,pic) {
+            $('#'+ name).toggle();
+            if($('input[type="radio"][name="price['+id+']"]').is(':checked'))
+            {
+                var price=($('input[type="radio"][name="price['+id+']"]:checked').data('price'));
+                $('input[type="radio"][name="price['+id+']"]').prop('checked',false);
+                $('input[type="radio"][name="price['+id+']"]').data('waschecked',false);
+                $('.'+name).val(null);
+                $('.'+name).css('display', 'none');
+                totalprice=parseInt(totalprice)-parseInt(price);
+                $(".total").html('BDT ' +totalprice);
+                $("input[name='totalprice']").val(totalprice);
+            }
+            else{
+                $('input[type="radio"][name="price['+id+']"]').prop('checked',true);
+                $('input[type="radio"][name="price['+id+']"]').data('waschecked',true);
+                var duration=($('input[type="radio"][name="price['+id+']"]:checked').data('duration'));
+                var price=($('input[type="radio"][name="price['+id+']"]:checked').data('price'));
+                this.selectDay(name,pic,duration,price)
+                
+            }  
+         
         }
 
         function selectDay(name, pic, duration, price) {
-
             $(".subtotal").css('display', 'block');
             $(".price-section").css('display', 'block');
             var names = name;
@@ -327,11 +345,11 @@
             if (names == 'Spotlight') {
                 $(".Spotlight").val(duration)
                 spotadprice = $("#Spotlight input[type='radio']:checked").val();
-                $(".spotlight").css('display', 'block');
-                $(".spotlight img").attr('src', '' + image_path + pic + '');
-                $(".spotlight .pname").html(name + ' for ');
-                $(".spotlight .days").html(duration + ' days ');
-                $(".spotlight .price").html('BDT ' + price);
+                $(".Spotlight").css('display', 'block');
+                $(".Spotlight img").attr('src', '' + image_path + pic + '');
+                $(".Spotlight .pname").html(name + ' for ');
+                $(".Spotlight .days").html(duration + ' days ');
+                $(".Spotlight .price").html('BDT ' + price);
                 totalprice = parseInt(spotadprice) + parseInt(topadprice) + parseInt(bumpadprice);
                 $(".total").html('BDT ' +totalprice);
                 $("input[name='totalprice']").val(totalprice);
@@ -339,11 +357,11 @@
             if (names == 'Topad') {
                 $(".Topad").val(duration)
                 topadprice = $("#Topad input[type='radio']:checked").val();
-                $(".topad").css('display', 'block');
-                $(".topad img").attr('src', '' + image_path + pic + '');
-                $(".topad .pname").html(name + ' for ');
-                $(".topad .days").html(duration + ' days ');
-                $(".topad .price").html('BDT ' + price);
+                $(".Topad").css('display', 'block');
+                $(".Topad img").attr('src', '' + image_path + pic + '');
+                $(".Topad .pname").html(name + ' for ');
+                $(".Topad .days").html(duration + ' days ');
+                $(".Topad .price").html('BDT ' + price);
                 totalprice = parseInt(spotadprice) + parseInt(topadprice) + parseInt(bumpadprice);
                 $(".total").html('BDT ' +totalprice);
                 $("input[name='totalprice']").val(totalprice);
@@ -351,11 +369,11 @@
             if (names == 'Bumpad') {
                 $(".Bumpad").val(duration)
                 bumpadprice = $("#Bumpad input[type='radio']:checked").val();
-                $(".bumpad").css('display', 'block');
-                $(".bumpad img").attr('src', '' + image_path + pic + '');
-                $(".bumpad .pname").html(name + ' for ');
-                $(".bumpad .days").html(duration + ' days ');
-                $(".bumpad .price").html('BDT ' + price);
+                $(".Bumpad").css('display', 'block');
+                $(".Bumpad img").attr('src', '' + image_path + pic + '');
+                $(".Bumpad .pname").html(name + ' for ');
+                $(".Bumpad .days").html(duration + ' days ');
+                $(".Bumpad .price").html('BDT ' + price);
                 totalprice = parseInt(spotadprice) + parseInt(topadprice) + parseInt(bumpadprice);
                 $(".total").html('BDT ' +totalprice);
                 $("input[name='totalprice']").val(totalprice);

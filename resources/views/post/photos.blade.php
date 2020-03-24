@@ -127,7 +127,7 @@
 				showCancel: true,
 				showUpload: false,
 				showRemove: false,
-                maxFileSize: {{ (int)config('settings.upload_max_file_size', 1000) }},
+                maxFileSize: 5120,
                 browseOnZoneClick: true,
                 minFileCount: 0,
                 maxFileCount: {{ (int)$postsPicturesNumber }},

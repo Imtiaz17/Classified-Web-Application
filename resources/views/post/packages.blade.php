@@ -64,7 +64,7 @@
                                     <input type="hidden" name="totalprice" value="">
                                     
                                     <fieldset>
-
+                                       
 
                                         @if (isset($packages) and isset($paymentMethods) and $packages->count() > 0 and $paymentMethods->count() > 0)
                                             <div class="well" style="padding-bottom: 0;">
@@ -99,7 +99,7 @@
                                                                             <label for="{{$package->id}}" class="row" style="width:100%">
                                                                                     <div class="box">
                                                                                         <div class="col-xs-2">
-                                                                                        <input type="checkbox" onchange="promoteAd('{{$package->name}}')"  class="check{{$package->name}}"
+                                                                                        <input type="checkbox" onchange="promoteAd('{{$package->name}}','{{$package->id}}')"  class="check{{$package->name}}"
                                                                                             name="package[{{$package->id}}]" id="{{$package->id}}" value="{{$package->id}}">
                                                                                         <img src="{{asset('uploads/'.$package->picture)}}">
                                                                                     </div>
@@ -118,7 +118,7 @@
                                                                                     <input type="hidden" class="{{$package->name}}"
                                                                                            name="totalday[{{$package->id}}]" value=''>
                                                                                     <input type="radio" name="price[{{$package->id}}]"
-                                                                                           value="{{$duration->price}}"  
+                                                                                           value="{{$duration->price}}" data-duration="{{$duration->duration}}"  data-price="{{$duration->price}}"
                                                                                            onchange="selectDay('{{$package->name}}','{{$duration->duration}}','{{$duration->price}}')">
                                                                                         
                                                                                     <span> {{$duration->duration}}</span>
@@ -240,6 +240,7 @@
                                             </div>
                                         </div>
 
+                                        
                                         <div style="margin-bottom: 30px;"></div>
 
                                     </fieldset>
@@ -273,9 +274,26 @@
         var bumpadprice = 0;
         var totalprice = 0;
 
-        function promoteAd(list) {
-            $('#'+ list).toggle();
-             // $('input[type="radio"][name="price'+id+'"]').prop("checked", true);
+        function promoteAd(name,id) {
+            $('#'+ name).toggle();
+            if($('input[type="radio"][name="price['+id+']"]').is(':checked'))
+            {
+                var price=($('input[type="radio"][name="price['+id+']"]:checked').data('price'));
+                $('input[type="radio"][name="price['+id+']"]').prop('checked',false);
+                $('input[type="radio"][name="price['+id+']"]').data('waschecked',false);
+                totalprice =totalprice-parseInt(price);
+                $(".total").html('BDT ' +totalprice);
+                $("input[name='totalprice']").val(totalprice);
+            }
+            else{
+               
+
+                $('input[type="radio"][name="price['+id+']"]').prop('checked',true);
+                $('input[type="radio"][name="price['+id+']"]').data('waschecked',true);
+                var price=($('input[type="radio"][name="price['+id+']"]:checked').data('price'));
+                var duration=($('input[type="radio"][name="price['+id+']"]:checked').data('duration'));
+                this.selectDay(name,duration,price)
+            }
         }
         
         function selectDay(name,duration,price) {

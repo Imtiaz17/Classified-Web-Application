@@ -22,10 +22,10 @@ class PromoteController extends FrontController
 	public function adpromote(Request $request)
 	{
 		$rules = [
-            'totalprice' => 'required',
+            'package' => 'required',
         ];
          $customMessages = [
-        'required' => 'Please select add duration.'
+        'package.required' => 'Please select a package'
     ];
       $this->validate($request, $rules, $customMessages);
 		$count=count($request->package);

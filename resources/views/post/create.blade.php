@@ -1,5 +1,14 @@
 @extends('layouts.master')
-
+@section('before_styles')
+	<style type="text/css">
+		@media only screen and (max-width:400px)
+		{
+        .editor {
+            float: inherit !important;
+		}
+	}
+	</style>
+	@endsection
 @section('wizard')
 	@include('post.inc.wizard')
 @endsection
@@ -87,7 +96,7 @@
 										<div class="form-group required <?php echo (isset($errors) and $errors->has('description')) ? 'has-error' : ''; ?>">
 											<label class="col-md-3 control-label" for="description">{{ t('Description') }} <sup>*</sup></label>
 											<div class="col-md-8"></div>
-                                            <div class="col-md-11" style="position: relative; float: right; padding-top: 10px;">
+                                            <div class="col-md-11 editor" style="position: relative; float: right; padding-top: 10px;">
                                                 <?php $ckeditorClass = (config('settings.ckeditor_wysiwyg')) ? 'ckeditor' : ''; ?>
                                                 <textarea class="form-control {{ $ckeditorClass }}" id="description" name="description" rows="10">{{ old('description') }}</textarea>
 												<p class="help-block">{{ t('Describe what makes your ad unique') }}...</p>
