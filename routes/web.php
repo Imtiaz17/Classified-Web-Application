@@ -57,7 +57,7 @@
 |
 */
 Route::group([
-    'middleware' => ['admin', 'bannedUser', 'installChecker', 'preventBackHistory'],
+    'middleware' => ['admin', 'bannedUser'],
     'prefix'     => config('larapen.admin.route_prefix', 'admin'),
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function() {
@@ -93,6 +93,7 @@ Route::group([
     CRUD::resource('user', 'UserController');
 
     // Others
+    Route::resource('subcity', 'SubcityController');
     Route::resource('package', 'BpackageController');
     Route::resource('requestedpromotion', 'RequestedpromotionController');
     Route::get('timelimit/{package}', 'BpackageController@addtimelimit')->name('addtime');

@@ -178,7 +178,7 @@ final class Versions
   'symfony/dom-crawler' => 'v3.1.10@7eede2a901a19928494194f7d1815a77b9a473a0',
   'theseer/tokenizer' => '1.1.3@11336f6f84e16a720dae9d8e6ed5019efa85a0f9',
   'webmozart/assert' => '1.7.0@aed98a490f9a8f78468232db345ab9cf606cf598',
-  'bedigit/laraclassified' => 'dev-master@72e1c7dbdadce813ade7d34602857ee6663a3f7b',
+  'bedigit/laraclassified' => 'dev-master@3996ee95f807307e8e43cc9f38693654bff248e1',
 );
 
     private function __construct()
