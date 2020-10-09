@@ -34,33 +34,33 @@ class InstallationChecker
      */
     public function handle($request, Closure $next)
     {
-        if ($request->segment(1) == 'install') {
-            // Check if installation is processing
-            $InstallInProgress = false;
-            if (
-                !empty($request->session()->get('database_imported')) ||
-                !empty($request->session()->get('cron_jobs')) ||
-                !empty($request->session()->get('install_finish'))
-            )
-            {
-                $InstallInProgress = true;
-            }
-            if ($this->alreadyInstalled($request) && $this->properlyInstalled() && !$InstallInProgress) {
-                return redirect('/');
-            }
-        } else {
-			// Check if an update is available
-			if ($this->envFileExists() && $this->checkUpdates()) {
-				return headerLocation(getRawBaseUrl() . '/upgrade');
-			}
+   //      if ($request->segment(1) == 'install') {
+   //          // Check if installation is processing
+   //          $InstallInProgress = false;
+   //          if (
+   //              !empty($request->session()->get('database_imported')) ||
+   //              !empty($request->session()->get('cron_jobs')) ||
+   //              !empty($request->session()->get('install_finish'))
+   //          )
+   //          {
+   //              $InstallInProgress = true;
+   //          }
+   //          if ($this->alreadyInstalled($request) && $this->properlyInstalled() && !$InstallInProgress) {
+   //              return redirect('/');
+   //          }
+   //      } else {
+			// // Check if an update is available
+			// if ($this->envFileExists() && $this->checkUpdates()) {
+			// 	return headerLocation(getRawBaseUrl() . '/upgrade');
+			// }
 			
-        	// Check if the website is installed
-            if (!$this->alreadyInstalled($request) || !$this->properlyInstalled()) {
-                return redirect(getRawBaseUrl() . '/install');
-            }
+   //      	// Check if the website is installed
+   //          if (!$this->alreadyInstalled($request) || !$this->properlyInstalled()) {
+   //              return redirect(getRawBaseUrl() . '/install');
+   //          }
 			
-			// $this->checkPurchaseCode($request);
-        }
+			// // $this->checkPurchaseCode($request);
+   //      }
 
         return $next($request);
     }

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BPackage extends BaseModel
+class Bpackage extends BaseModel
 {
     protected $guarded = [];
 
+    protected $table = 'b_packages';
 
 
     public function payments()
